@@ -1,15 +1,9 @@
 {
-    "name": "odan/slim4-skeleton",
-    "description": "A Slim 4 skeleton",
+    "name": "yuukilla/hloudbin",
+    "description": "Deployable app to quickly backup necessary files",
     "license": "MIT",
     "type": "project",
-    "keywords": [
-        "slim-framework",
-        "skeleton",
-        "slim",
-        "slim4",
-        "apache"
-    ],
+    "keywords": [],
     "require": {
         "php": "^8.0",
         "ext-json": "*",
