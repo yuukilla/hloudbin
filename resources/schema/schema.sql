@@ -5,7 +5,6 @@ CREATE TABLE `users` (
     `lastname` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `access_token` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `date_joined` timestamp COLLATE utf8mb4_unicode_ci DEFAULT NOW(),
     `date_updated` timestamp COLLATE utf8mb4_unicode_ci DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (`id`),

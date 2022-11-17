@@ -9,37 +9,37 @@
                 <div class="modal-body pt-2">
                     <form action="/api/signup" method="post" id="signupForm">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="suUsername" placeholder="Username">
+                            <input type="text" class="form-control rounded-3" id="suUsername" name="suUsername" placeholder="Username">
                             <label for="suUsername">Username</label>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control rounded-3" id="suFirstName" placeholder="First name">
+                                    <input type="text" class="form-control rounded-3" id="suFirstName" name="suFirstName" placeholder="First name">
                                     <label for="suFirstName">First name</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control rounded-3" id="suLastName" placeholder="Last name">
+                                    <input type="text" class="form-control rounded-3" id="suLastName" name="suLastName" placeholder="Last name">
                                     <label for="suLastName">Last name</label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="suEmail" placeholder="Email">
+                            <input type="email" class="form-control rounded-3" id="suEmail" name="suEmail" placeholder="Email">
                             <label for="suEmail">Email</label>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control rounded-3" id="suPassword" placeholder="Password">
+                                    <input type="password" class="form-control rounded-3" id="suPassword" name="suPassword" placeholder="Password">
                                     <label for="suPassword">Password</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control rounded-3" id="suPassword-repeat" placeholder="Repeat password">
+                                    <input type="password" class="form-control rounded-3" id="suPassword-repeat" name="suPassword-repeat" placeholder="Repeat password">
                                     <label for="suPassword-repeat">Repeat Password</label>
                                 </div>
                             </div>
@@ -63,20 +63,20 @@
                     {# <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button> #}
                 </div>
                 <div class="modal-body pt-2">
-                    <form action="/api/login" method="post" id="loginForm">
+                    <form action="/api/signin" method="post" id="loginForm">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="siUsernameOrEmail" placeholder="Username or Email">
-                            <label for="siUsernameOrEmail">Username or Email</label>
+                            <input type="text" class="form-control rounded-3" id="siUsername" name="siUsername" placeholder="Username or Email">
+                            <label for="siUsername">Username or Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="siPassword" placeholder="Password">
+                            <input type="password" class="form-control rounded-3" id="siPassword" name="siPassword" placeholder="Password">
                             <label for="siPassword">Password</label>
                         </div>
                         <div class="w-100 text-center">
                             <button class="w-100 mb-2 btn rounded-3 btn-primary" type="submit">Sign up</button>
                             <small class="text-muted ">
                                 {# <div class="form-check"> #}
-                                    <input type="checkbox" value="" id="siRemember" class="form-check-input align-middle mt-0">
+                                    <input type="checkbox" value="1" id="siRemember" name="siRemember" class="form-check-input align-middle mt-0">
                                     <label class="form-check-label align-middle" for="siRemember">Remember me</label>
                                 {# </div> #}
                             </small><br>
