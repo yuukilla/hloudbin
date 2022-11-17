@@ -6,6 +6,7 @@ use App\Domain\User\Service\UserReader;
 use App\Renderer\RedirectRenderer;
 use App\Renderer\JsonRenderer;
 use Fig\Http\Message\StatusCodeInterface;
+use Odan\Session\PhpSession;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -36,10 +37,14 @@ final class SigninAction
                 ->withStatus(StatusCodeInterface::STATUS_UNAUTHORIZED);
         }
 
+
+
         /**
          * IMPLEMENT USER SESSION
          * RIGHT AT THIS PLACE.
          */
+        $session = new PhpSession();
+
 
         return $this->jsonRenderer
             ->json($response, ["message" => "Successfully authorized"])

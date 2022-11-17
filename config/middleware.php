@@ -1,6 +1,7 @@
 <?php
 
 use App\Middleware\ValidationExceptionMiddleware;
+use Odan\Session\Middleware\SessionMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
@@ -14,4 +15,5 @@ return function (App $app) {
     $app->add(BasePathMiddleware::class);
     $app->add(ErrorMiddleware::class);
     $app->add(TwigMiddleware::createFromContainer($app, Twig::class));
+    $app->add(SessionMiddleware::class);
 };

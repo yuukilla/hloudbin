@@ -12,6 +12,8 @@ use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
 use Monolog\Level;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Odan\Session\PhpSession;
+use Odan\Session\SessionInterface;
 use Odan\Twig\TwigAssetsExtension;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -199,4 +201,12 @@ return [
 
         return $twig;
     },
+
+    SessionInterface::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['session'];
+        $session = new PhpSession();
+        $session->setOptions((array)$settings);
+
+        return $session;
+    }
 ];

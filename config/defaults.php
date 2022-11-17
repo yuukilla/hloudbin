@@ -83,4 +83,9 @@ $settings['assets'] = [
     'minify' => 1,
 ];
 
+$settings['session'] = [
+    'name' => 'hloudBin',
+    'cache_expire' => 1,
+];
+
 return $settings;
