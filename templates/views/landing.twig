@@ -1,0 +1,30 @@
+{% extends "views/skeleton.twig" %}
+{% use "components/modals.twig" with modals as Modals %}
+{% use "components/navbar.twig" with navbar as Navbar %}
+{% use "components/footer.twig" with footer as Footer %}
+
+
+{% block content %}
+    {% block navbar %}
+        {{ block('Navbar') }}
+    {% endblock %}
+
+    <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="text-center font-monospace">
+                <h1 class="fst-italic">{{ title }} </h1>
+                <h3 class="text-muted">{{ slug }}</h3>
+                <button class="btn btn-lg btn-outline-dark mt-4" data-bs-toggle="modal" data-bs-target="#authModal">Get started</button>
+            </div>
+        </div>
+    </div>
+
+
+    {% block modals %}
+        {{ block('Modals') }}
+    {% endblock %}
+
+    {% block footer %}
+        {{ block('Footer') }}
+    {% endblock %}
+{% endblock %}

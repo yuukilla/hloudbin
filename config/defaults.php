@@ -67,4 +67,20 @@ $settings['commands'] = [
     \App\Console\SetupCommand::class,
 ];
 
+$settings['twig'] = [
+     "path" => __DIR__ . "/../templates",
+     "loader_path" => __DIR__ . "/../public",
+     "loader_name" => "public",
+     "debug_enabled" => true,
+     "cache_enabled" => true,
+     "cache_path" => __DIR__ . "/../tmp/twig-cache"
+];
+$settings["assets"] = [
+    "path" => __DIR__ . "/../public/assets",
+    "url_base_path" => "assets/",
+    "cache_path" => __DIR__ . "/../tmp/twig-assets",
+    "cache_name" => "assets-cache",
+    "minify" => 1
+];
+
 return $settings;
