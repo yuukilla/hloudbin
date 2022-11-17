@@ -51,4 +51,5 @@ return (new Config())
             ->name('*.php')
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
+            ->notName("env.php")
     );

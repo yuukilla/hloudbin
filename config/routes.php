@@ -13,10 +13,10 @@ return function (App $app) {
     $app->group(
         '/api',
         function (RouteCollectorProxy $app) {
-            $app->post( '/signup', \App\Action\User\SignupAction::class);
-            $app->post( '/signin', \App\Action\User\SigninAction::class );
-            $app->get( '/signout', \App\Action\User\SignoutAction::class );
-            $app->get( '/user', \App\Action\User\UserAction::class );
+            $app->post('/signup', \App\Action\User\SignupAction::class);
+            $app->post('/signin', \App\Action\User\SigninAction::class);
+            $app->get('/signout', \App\Action\User\SignoutAction::class);
+            $app->get('/user', \App\Action\User\UserAction::class);
         }
     );
 };

@@ -19,11 +19,11 @@ final class HomeAction
     {
         return $this->twig->render(
             $response,
-            "views/landing.twig",
-            array(
-                "title" => "hloudBin",
-                "slug" => "b\$ackup before migrate."
-            )
+            'views/landing.twig',
+            [
+                'title' => 'hloudBin',
+                'slug' => 'b$ackup before migrate.',
+            ]
         );
     }
 }

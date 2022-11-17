@@ -13,5 +13,5 @@ return function (App $app) {
     $app->addRoutingMiddleware();
     $app->add(BasePathMiddleware::class);
     $app->add(ErrorMiddleware::class);
-    $app->add(TwigMiddleware::createFromContainer( $app, Twig::class ));
+    $app->add(TwigMiddleware::createFromContainer($app, Twig::class));
 };

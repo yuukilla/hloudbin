@@ -177,26 +177,26 @@ return [
     },
 
     Twig::class => function (ContainerInterface $container) {
-        $twigSettings = $container->get("settings")["twig"];
-        $assetsSettings = $container->get("settings")["assets"];
+        $twigSettings = $container->get('settings')['twig'];
+        $assetsSettings = $container->get('settings')['assets'];
 
         $twig = Twig::create(
             $twigSettings['path'],
             [
-                "cache" => $twigSettings["cache_enabled"] ? $twigSettings["cache_path"] : false,
-                "debug" => $twigSettings["debug_enabled"]
+                'cache' => $twigSettings['cache_enabled'] ? $twigSettings['cache_path'] : false,
+                'debug' => $twigSettings['debug_enabled'],
             ]
         );
 
         $loader = $twig->getLoader();
-        if ( $loader instanceof FilesystemLoader ) {
-            $loader->addPath( $twigSettings["loader_path"], $twigSettings["loader_name"] );
+        if ($loader instanceof FilesystemLoader) {
+            $loader->addPath($twigSettings['loader_path'], $twigSettings['loader_name']);
         }
         $enviroment = $twig->getEnvironment();
 
-        $twig->addExtension( new TwigAssetsExtension( $enviroment, (array)$assetsSettings ));
-        $twig->addExtension( new DebugExtension() );
+        $twig->addExtension(new TwigAssetsExtension($enviroment, (array)$assetsSettings));
+        $twig->addExtension(new DebugExtension());
 
         return $twig;
-    }
+    },
 ];
