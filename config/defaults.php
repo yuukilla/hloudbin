@@ -3,6 +3,9 @@
 // Application default settings
 
 // Error reporting
+use App\Console\ExampleCommand;
+use App\Console\SetupCommand;
+
 error_reporting(0);
 ini_set('display_errors', '0');
 ini_set('display_startup_errors', '0');
@@ -63,8 +66,8 @@ $settings['db'] = [
 
 // Console commands
 $settings['commands'] = [
-    \App\Console\ExampleCommand::class,
-    \App\Console\SetupCommand::class,
+    ExampleCommand::class,
+    SetupCommand::class,
 ];
 
 $settings['twig'] = [
@@ -75,6 +78,7 @@ $settings['twig'] = [
     'cache_enabled' => true,
     'cache_path' => __DIR__ . '/../tmp/twig-cache',
 ];
+
 $settings['assets'] = [
     'path' => __DIR__ . '/../public/assets',
     'url_base_path' => 'assets/',
@@ -85,7 +89,7 @@ $settings['assets'] = [
 
 $settings['session'] = [
     'name' => 'hloudBin',
-    'cache_expire' => 1,
+    'cache_expire' => 1669067999,
 ];
 
 return $settings;

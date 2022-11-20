@@ -31,6 +31,7 @@ final class UserRepository
                 'firstname',
                 'lastname',
                 'email',
+                'password',
                 'date_joined',
                 'date_updated',
             ]

@@ -2,6 +2,9 @@
 
 namespace App\Action\Home;
 
+
+use App\Domain\User\Service\UserReader;
+use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
@@ -9,21 +12,39 @@ use Slim\Views\Twig;
 final class HomeAction
 {
     private Twig $twig;
+    private SessionInterface $session;
+    private UserReader $user;
 
-    public function __construct(Twig $twig)
+    public function __construct(Twig $twig, SessionInterface $session, UserReader $user)
     {
         $this->twig = $twig;
+        $this->session = $session;
+        $this->user = $user;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        $arrResData = [];
+        if ( $this->session->get('userid') != null ) {
+            $user = $this->user->getById($this->session->get('userid'));
+            $arrResData = [
+                'session' => $this->session->get('userid'),
+                'userid' => $user->id,
+                'username' => $user->username,
+            ];
+        }
+
+        $arrResDataNonSess = [
+            'title' => 'hloudBin',
+            'slug' => 'b$ackup before migrate.',
+        ];
+
+
         return $this->twig->render(
             $response,
             'views/landing.twig',
-            [
-                'title' => 'hloudBin',
-                'slug' => 'b$ackup before migrate.',
-            ]
+            $arrResDataNonSess += $arrResData,
         );
+
     }
 }

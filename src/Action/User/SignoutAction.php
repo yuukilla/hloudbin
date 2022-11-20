@@ -4,20 +4,23 @@ namespace App\Action\User;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Renderer\JsonRenderer;
+use Odan\Session\PhpSession;
+use App\Renderer\RedirectRenderer;
 
 final class SignoutAction
 {
-    private JsonRenderer $jsonRenderer;
+    private RedirectRenderer $renderer;
+    private PhpSession $session;
 
-    public function __construct(JsonRenderer $jsonRenderer)
+    public function __construct(RedirectRenderer $renderer, PhpSession $session)
     {
-        $this->jsonRenderer = $jsonRenderer;
+        $this->renderer = $renderer;
+        $this->session = $session;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        return $this->jsonRenderer
-                ->json($response, ["resposne" => $response->getStatusCode()]);
+        $this->session->destroy();
+        return $this->renderer->redirect($response, '/');
     }
 }

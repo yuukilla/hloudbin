@@ -178,9 +178,21 @@ return [
         return new Storage($filesystem);
     },
 
+    SessionInterface::class => function(ContainerInterface $container) {
+        $settings = $container->get('settings')['session'];
+
+        $session = new PhpSession();
+
+        $session->setOptions((array)$settings);
+
+        return $session;
+    },
+
     Twig::class => function (ContainerInterface $container) {
         $twigSettings = $container->get('settings')['twig'];
         $assetsSettings = $container->get('settings')['assets'];
+
+        $flash = $container->get(SessionInterface::class)->getFlash();
 
         $twig = Twig::create(
             $twigSettings['path'],
@@ -195,6 +207,7 @@ return [
             $loader->addPath($twigSettings['loader_path'], $twigSettings['loader_name']);
         }
         $enviroment = $twig->getEnvironment();
+        $enviroment->addGlobal('flash', $flash);
 
         $twig->addExtension(new TwigAssetsExtension($enviroment, (array)$assetsSettings));
         $twig->addExtension(new DebugExtension());
@@ -202,11 +215,5 @@ return [
         return $twig;
     },
 
-    SessionInterface::class => function (ContainerInterface $container) {
-        $settings = $container->get('settings')['session'];
-        $session = new PhpSession();
-        $session->setOptions((array)$settings);
 
-        return $session;
-    }
 ];
