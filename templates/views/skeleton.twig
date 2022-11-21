@@ -21,6 +21,9 @@
         {{ assets({ files: [ 'assets/js/jquery.min.js' ] }) }}
         {# {{ assets({ files: [ 'assets/js/bootstrap/bootstrap.min.js' ] }) }} #}
         {{ assets({ files: [ 'assets/js/bootstrap/bootstrap.bundle.min.js' ] }) }}
+
+        {% block scripts %}
+        {% endblock %}
     </body>
 
 </html>

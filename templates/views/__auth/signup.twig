@@ -1,0 +1,58 @@
+{% extends "views/skeleton.twig" %}
+{% block content %}
+
+    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-secondary bg-opacity-25">
+        {% for message in flash.get('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="container rounded bg-light p-5 w-25 shadow">
+            <h2 class="w-100 text-center pb-4">Sign up</h2>
+            <form action="/api/auth/signup" method="post" id="signupForm">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-3" id="suUsername" name="suUsername" placeholder="Username">
+                    <label for="suUsername">Username</label>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="suFirstName" name="suFirstName" placeholder="First name">
+                            <label for="suFirstName">First name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="suLastName" name="suLastName" placeholder="Last name">
+                            <label for="suLastName">Last name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control rounded-3" id="suEmail" name="suEmail" placeholder="Email">
+                    <label for="suEmail">Email</label>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="password" class="form-control rounded-3" id="suPassword" name="suPassword" placeholder="Password">
+                            <label for="suPassword">Password</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="password" class="form-control rounded-3" id="suPassword-repeat" name="suPassword-repeat" placeholder="Repeat password">
+                            <label for="suPassword-repeat">Repeat Password</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 text-center">
+                    <button class="w-100 mb-2 btn rounded-3 btn-primary" type="submit">Sign up</button>
+                    <small class="text-muted">By clicking Sign up, you agree to the <a href="/terms-of-service" class="link text-decoration-none">terms of service</a>.</small><br>
+                    <small class="text-muted">Already a member? <a href="/signin" class="link text-decoration-none" style="cursor: pointer;">Sign in</a>.</small>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

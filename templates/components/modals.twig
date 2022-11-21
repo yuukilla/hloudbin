@@ -7,7 +7,7 @@
                     {# <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button> #}
                 </div>
                 <div class="modal-body pt-2">
-                    <form action="/api/signup" method="post" id="signupForm">
+                    <form action="/api/auth/signup" method="post" id="signupForm">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="suUsername" name="suUsername" placeholder="Username">
                             <label for="suUsername">Username</label>
@@ -63,7 +63,7 @@
                     {# <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button> #}
                 </div>
                 <div class="modal-body pt-2">
-                    <form action="/api/signin" method="post" id="loginForm">
+                    <form action="/api/auth/signin" method="post" id="loginForm">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="siUsername" name="siUsername" placeholder="Username">
                             <label for="siUsername">Username</label>
@@ -73,7 +73,7 @@
                             <label for="siPassword">Password</label>
                         </div>
                         <div class="w-100 text-center">
-                            <button class="w-100 mb-2 btn rounded-3 btn-primary" type="submit">Sign up</button>
+                            <button class="w-100 mb-2 btn rounded-3 btn-primary" type="submit">Sign in</button>
                             <small class="text-muted ">
                                 {# <div class="form-check"> #}
                                     <input type="checkbox" value="1" id="siRemember" name="siRemember" class="form-check-input align-middle mt-0">

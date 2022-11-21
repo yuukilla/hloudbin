@@ -14,12 +14,14 @@
             <div class="text-center font-monospace">
                 <h1 class="fst-italic fw-bold">{{ title }} </h1>
                 <h3 class="text-muted">{{ slug }}</h3>
-                <button class="btn btn-lg btn-outline-dark mt-4" data-bs-toggle="modal" data-bs-target="#authModal">Get started</button>
-                {% for message in flash.get('error') %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+                {% if session != null %}
+                    <a href="/dashboard" class="btn btn-lg btn-outline-dark mt-4">Dashboard</a>
+                {% else %}
+                    <button class="btn btn-lg btn-outline-dark mt-4" data-bs-toggle="modal" data-bs-target="#authModal">Get started</button>
+                {% endif %}
+
+                {# remove later  #}
+                
             </div>
         </div>
     </div>
@@ -32,4 +34,9 @@
     {% block footer %}
         {{ block('Footer') }}
     {% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+    {{ assets({ files: [ 'assets/js/app.js' ] }) }}
 {% endblock %}

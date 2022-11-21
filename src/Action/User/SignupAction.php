@@ -2,36 +2,37 @@
 
 namespace App\Action\User;
 
-use App\Domain\User\Service\UserCreator;
 use App\Renderer\RedirectRenderer;
-use Fig\Http\Message\StatusCodeInterface;
+use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Views\Twig;
 
 final class SignupAction
 {
+    private SessionInterface $session;
+
     private RedirectRenderer $renderer;
 
-    private UserCreator $creator;
+    private Twig $twig;
 
-    public function __construct(UserCreator $creator, RedirectRenderer $renderer)
+    public function __construct(SessionInterface $session, RedirectRenderer $renderer, Twig $twig)
     {
-        $this->creator = $creator;
+        $this->session = $session;
         $this->renderer = $renderer;
+        $this->twig = $twig;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $data = (array)$request->getParsedBody();
+        if ($this->session->get('user_id') != null) {
+            return $this->renderer->redirect($response, '/user');
+        }
 
-        $userId = $this->creator->create($data); // JUST CREATES USER RECORD IN DATABASE;
-
-        /**
-         * IMPLEMENT USER SESSION
-         * RIGHT AT THIS PLACE.
-         */
-
-        return $this->renderer->redirect($response, '/');
-
+        return $this->twig
+            ->render(
+                $response,
+                'views/__auth/signup.twig'
+            );
     }
 }

@@ -25,12 +25,12 @@ final class HomeAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $arrResData = [];
-        if ( $this->session->get('userid') != null ) {
-            $user = $this->user->getById($this->session->get('userid'));
+        if ( $this->session->get('user_id') != null ) {
+            $user = $this->user->getById($this->session->get('user_id'));
             $arrResData = [
-                'session' => $this->session->get('userid'),
+                'session' => $this->session->get('user_id'),
                 'userid' => $user->id,
-                'username' => $user->username,
+                'name' => $user->firstname . " " . $user->lastname,
             ];
         }
 
