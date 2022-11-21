@@ -63,3 +63,8 @@ public/assets/*
 !public/assets/.htaccess
 
 notes.md
+
+templates/assets/css/bootstrap
+templates/assets/css/bootstrap-icons
+templates/assets/js/bootstrap
+templates/assets/js/jquery.min.js
