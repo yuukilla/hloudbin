@@ -2,7 +2,6 @@
 
 namespace App\Action\Home;
 
-
 use App\Domain\User\Service\UserReader;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,12 +24,12 @@ final class HomeAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $arrResData = [];
-        if ( $this->session->get('user_id') != null ) {
+        if ($this->session->get('user_id') != null) {
             $user = $this->user->getById($this->session->get('user_id'));
             $arrResData = [
                 'session' => $this->session->get('user_id'),
                 'userid' => $user->id,
-                'name' => $user->firstname . " " . $user->lastname,
+                'name' => $user->firstname . ' ' . $user->lastname,
             ];
         }
 
@@ -39,12 +38,10 @@ final class HomeAction
             'slug' => 'b$ackup before migrate.',
         ];
 
-
         return $this->twig->render(
             $response,
             'views/landing.twig',
             $arrResDataNonSess += $arrResData,
         );
-
     }
 }

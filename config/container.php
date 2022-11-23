@@ -178,7 +178,7 @@ return [
         return new Storage($filesystem);
     },
 
-    SessionInterface::class => function(ContainerInterface $container) {
+    SessionInterface::class => function (ContainerInterface $container) {
         $settings = $container->get('settings')['session'];
 
         $session = new PhpSession();
@@ -214,6 +214,4 @@ return [
 
         return $twig;
     },
-
-
 ];

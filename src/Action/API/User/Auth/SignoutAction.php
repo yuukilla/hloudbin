@@ -22,6 +22,7 @@ final class SignoutAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $this->session->destroy();
+
         return $this->renderer
             ->redirect($response, '/');
     }

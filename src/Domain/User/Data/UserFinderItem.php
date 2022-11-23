@@ -2,8 +2,6 @@
 
 namespace App\Domain\User\Data;
 
-
-
 final class UserFinderItem
 {
     public ?int $id = null;

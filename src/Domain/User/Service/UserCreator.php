@@ -18,8 +18,7 @@ final class UserCreator
         UserRepository $repository,
         UserValidator $validator,
         LoggerFactory $logger
-    )
-    {
+    ) {
         $this->repository = $repository;
         $this->validator = $validator;
         $this->logger = $logger

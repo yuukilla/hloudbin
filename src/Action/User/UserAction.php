@@ -9,11 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-/**
- * THIS WAS USED FOR TESTING
- * DONT MIND
- */
-
 final class UserAction
 {
     private SessionInterface $session;
@@ -23,8 +18,12 @@ final class UserAction
 
     private UserRepository $repository;
 
-    public function __construct(Twig $twig, SessionInterface $session, RedirectRenderer $renderer, UserRepository $repository)
-    {
+    public function __construct(
+        Twig $twig,
+        SessionInterface $session,
+        RedirectRenderer $renderer,
+        UserRepository $repository
+    ) {
         $this->twig = $twig;
         $this->session = $session;
         $this->renderer = $renderer;
@@ -41,8 +40,9 @@ final class UserAction
 
         return $this->twig->render(
             $response,
-            'views/user.twig',
+            'views/__user/index.twig',
             [
+                'session' => $this->session->get('user_id'),
                 'data' => 'data',
                 'user' => $user,
             ]

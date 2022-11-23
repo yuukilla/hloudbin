@@ -4,7 +4,6 @@ namespace App\Action\API\User\Auth;
 
 use App\Domain\User\Service\UserReader;
 use App\Renderer\RedirectRenderer;
-use Fig\Http\Message\StatusCodeInterface;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,6 +35,7 @@ final class SigninAction
             if (!$bolPasswordVerified) {
                 $flash = $this->session->getFlash();
                 $flash->add('error', 'Incorrect username and/or password');
+
                 return $this->renderer
                     ->redirect($response, '/signin');
             }
@@ -44,8 +44,7 @@ final class SigninAction
             $this->session->save();
 
             return $this->renderer
-                ->redirect($response, '/');
-
+                ->redirect($response, '/upload');
         } catch (\Exception $exception) {
             $flash = $this->session->getFlash();
             $flash->add('error', $exception->getMessage());

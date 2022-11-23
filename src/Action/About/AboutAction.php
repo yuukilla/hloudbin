@@ -4,18 +4,15 @@ namespace App\Action\About;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Odan\Session\SessionInterface;
 use Slim\Views\Twig;
 
 final class AboutAction
 {
     private Twig $twig;
-    private SessionInterface $session;
 
-    public function __construct(Twig $twig, SessionInterface $session)
+    public function __construct(Twig $twig)
     {
         $this->twig = $twig;
-        $this->session = $session;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -24,8 +21,8 @@ final class AboutAction
             $response,
             'views/about.twig',
             [
-                'title' => "hloudBin: About",
-                "text" => "placeholder",
+                'title' => 'hloudBin: About',
+                'text' => 'placeholder',
             ],
         );
     }

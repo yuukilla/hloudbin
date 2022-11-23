@@ -2,10 +2,10 @@
 
 namespace App\Action\Blog;
 
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
+
 final class BlogAction
 {
     private Twig $twig;

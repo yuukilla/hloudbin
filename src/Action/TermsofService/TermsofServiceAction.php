@@ -22,7 +22,7 @@ final class TermsofServiceAction
             'views/termsofservice.twig',
             [
                 'title' => 'hloudBind : Terms of Serivce',
-                'text' => "some placeholder text right here",
+                'text' => 'some placeholder text right here',
             ]
         );
     }

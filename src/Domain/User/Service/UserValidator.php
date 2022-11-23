@@ -48,7 +48,7 @@ final class UserValidator
                         $constraint->notBlank(),
                         $constraint->length(null, 40),
                     ]
-                 ),
+                ),
                 'suFirstName' => $constraint->required(
                     [
                         $constraint->notBlank(),
