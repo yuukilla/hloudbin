@@ -100,11 +100,11 @@ final class UserRepository
     public function toRow(array $user): array
     {
         return [
-            'username' => $user['suUsername'],
-            'firstname' => $user['suFirstName'],
-            'lastname' => $user['suLastName'],
-            'email' => $user['suEmail'],
-            'password' => password_hash($user['suPassword'], PASSWORD_DEFAULT),
+            'username' => $user['username'],
+            'firstname' => $user['firstname'],
+            'lastname' => $user['lastname'],
+            'email' => $user['email'],
+            'password' => password_hash($user['password'], PASSWORD_DEFAULT),
         ];
     }
 }

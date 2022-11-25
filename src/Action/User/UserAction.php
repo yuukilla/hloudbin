@@ -2,7 +2,7 @@
 
 namespace App\Action\User;
 
-use App\Domain\User\Repository\UserRepository;
+use App\Domain\User\Service\UserReader;
 use App\Renderer\RedirectRenderer;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,18 +16,18 @@ final class UserAction
     private Twig $twig;
     private RedirectRenderer $renderer;
 
-    private UserRepository $repository;
+    private UserReader $reader;
 
     public function __construct(
         Twig $twig,
         SessionInterface $session,
         RedirectRenderer $renderer,
-        UserRepository $repository
+        UserReader $reader
     ) {
         $this->twig = $twig;
         $this->session = $session;
         $this->renderer = $renderer;
-        $this->repository = $repository;
+        $this->reader = $reader;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -36,15 +36,15 @@ final class UserAction
             return $this->renderer->redirect($response, '/login');
         }
 
-        $user = $this->repository->getById($this->session->get('user_id'));
+        $user = $this->reader->getById($this->session->get('user_id'));
 
         return $this->twig->render(
             $response,
             'views/__user/index.twig',
             [
                 'session' => $this->session->get('user_id'),
-                'data' => 'data',
-                'user' => $user,
+                'title' => 'hloudBind : ' . $user->username,
+                'user' => (array)$user,
             ]
         );
     }
