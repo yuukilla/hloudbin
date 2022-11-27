@@ -9,28 +9,25 @@ use Psr\Log\LoggerInterface;
 final class UserCreator
 {
     private UserRepository $repository;
-
     private UserValidator $validator;
-
     private LoggerInterface $logger;
 
     public function __construct(
-        UserRepository $repository,
-        UserValidator $validator,
-        LoggerFactory $logger
+        UserRepository $userRepository,
+        UserValidator $userValidator,
+        LoggerFactory $loggerFactory
     ) {
-        $this->repository = $repository;
-        $this->validator = $validator;
-        $this->logger = $logger
+        $this->repository = $userRepository;
+        $this->validator = $userValidator;
+        $this->logger = $loggerFactory
             ->addFileHandler('user_creator.log')
             ->createLogger();
     }
 
-    public function create(array $data): int
+    public function createUser(array $data): int
     {
         $this->validator->validateUser($data);
-
-        $userId = $this->repository->create($data);
+        $userId = $this->repository->createUser($data);
 
         $this->logger->info(sprintf('User created successfully: %s', $userId));
 

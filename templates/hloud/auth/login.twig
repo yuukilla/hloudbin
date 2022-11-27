@@ -1,4 +1,4 @@
-{% extends "views/skeleton.twig" %}
+{% extends "skeleton.twig" %}
 
 {% block content %}
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-secondary bg-opacity-25">
@@ -6,14 +6,14 @@
         <div class="container-fluid d-flex flex-column align-items-center">
             <div class="container rounded bg-light p-5 w-25 shadow">
                 <h2 class="w-100 text-center pb-4">Sign in</h2>
-                <form action="/api/auth/signin" method="post" id="loginForm">
+                <form action="/api/auth/login" method="post" id="loginForm">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3" id="siUsername" name="siUsername" placeholder="Username" required>
-                        <label for="siUsername">Username</label>
+                        <input type="text" class="form-control rounded-3" id="username" name="username" placeholder="Username" required>
+                        <label for="username">Username</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3" id="siPassword" name="siPassword" placeholder="Password" required>
-                        <label for="siPassword">Password</label>
+                        <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="Password" required>
+                        <label for="password">Password</label>
                     </div>
                     <div class="w-100 text-center">
                         <button class="w-100 mb-2 btn rounded-3 btn-primary" type="submit">Sign in</button>

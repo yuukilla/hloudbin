@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Domain\User\Service;
-
 use App\Domain\User\Data\UserReaderResult;
 use App\Domain\User\Repository\UserRepository;
 
@@ -9,14 +8,14 @@ final class UserReader
 {
     private UserRepository $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $userRepository;
     }
 
-    public function getById(int $userId): UserReaderResult
+    public function getUserById(int $userId): UserReaderResult
     {
-        $userRow = $this->repository->getById($userId);
+        $userRow = $this->repository->getUserById($userId);
 
         $result = new UserReaderResult();
         $result->id = $userRow['id'];
@@ -31,9 +30,9 @@ final class UserReader
         return $result;
     }
 
-    public function getByUsername(string $username): UserReaderResult
+    public function getUserByName(string $userName): UserReaderResult
     {
-        $userRow = $this->repository->getByName($username);
+        $userRow = $this->repository->getUserByName($userName);
 
         $result = new UserReaderResult();
         $result->id = $userRow['id'];
@@ -47,4 +46,5 @@ final class UserReader
 
         return $result;
     }
+
 }

@@ -18,15 +18,6 @@ final class UserValidator
         $this->repository = $repository;
     }
 
-    public function validateUserUpdate(int $userId, array $data): void
-    {
-        if (!$this->repository->exists($userId)) {
-            throw new DomainException(sprintf('User not found: %s', $userId));
-        }
-
-        $this->validateUser($data);
-    }
-
     public function validateUser(array $data): void
     {
         $validator = Validation::createValidator();
@@ -37,50 +28,45 @@ final class UserValidator
         }
     }
 
+    public function validateUserUpdate(int $userId, array $data): void
+    {
+        if (!$this->repository->userExists($userId)) {
+            throw new DomainException(sprintf('User not found: %s', $userId));
+        }
+
+        $this->validateUser($data);
+    }
+
     private function createConstraints(): Constraint
     {
         $constraint = new ConstraintFactory();
 
-        return $constraint->collection(
-            [
-                'suUsername' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->length(null, 40),
-                    ]
-                ),
-                'suFirstName' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->length(null, 60),
-                    ]
-                ),
-                'suLastName' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->length(null, 60),
-                    ]
-                ),
-                'suEmail' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->email(),
-                        $constraint->length(null, 255),
-                    ]
-                ),
-                'suPassword' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->length(8, 40),
-                    ]
-                ),
-                'suPassword-repeat' => $constraint->required(
-                    [
-                        $constraint->notBlank(),
-                        $constraint->length(8, 40),
-                    ]
-                ),
-            ]
-        );
+        return $constraint->collection([
+            'username' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->length(null, 40),
+            ]),
+            'firstname' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->length(null, 60),
+            ]),
+            'lastname' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->length(null, 60),
+            ]),
+            'email' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->email(),
+                $constraint->length(null, 255),
+            ]),
+            'password' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->length(8, 40),
+            ]),
+            'password-repeat' => $constraint->required([
+                $constraint->notBlank(),
+                $constraint->length(8, 40),
+            ]),
+        ]);
     }
 }

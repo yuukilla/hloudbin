@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Domain\User\Repository;
-
 use App\Factory\QueryFactory;
 
 final class UserFinderRepository
@@ -24,8 +23,9 @@ final class UserFinderRepository
                 'firstname',
                 'lastname',
                 'email',
+                'password',
                 'date_joined',
-                'date_updated',
+                'date_updated'
             ]
         );
 
