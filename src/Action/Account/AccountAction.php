@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Action\Account;
+
 use App\Renderer\RedirectRenderer;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +26,7 @@ final class AccountAction
 
     public function pageLogin(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        if (!$this->bolSessionActive()) {
+        if ($this->bolSessionActive()) {
             return $this->renderer->redirect($response, '/account');
         }
 
@@ -38,7 +39,7 @@ final class AccountAction
 
     public function pageSignup(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        if (!$this->bolSessionActive()) {
+        if ($this->bolSessionActive()) {
             return $this->renderer->redirect($response, '/account');
         }
 
@@ -49,8 +50,24 @@ final class AccountAction
         );
     }
 
+    public function pageAccount(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        if ( !$this->bolSessionActive() ) {
+            return $this->renderer->redirect($response, '/login');
+        }
+
+        return $this->twig->render(
+            $response,
+            'hloud/account/account.twig',
+            [
+                'title' => 'hloudBin Account',
+                'bolSessAct' => $this->bolSessionActive()
+            ]
+        );
+    }
+
     public function bolSessionActive(): bool
     {
-        return (bool)$this->session->get('hloudBin_userID') == null;
+        return !empty($this->session->get('hloudbin_userID'));
     }
 }
