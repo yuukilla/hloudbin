@@ -26,6 +26,19 @@ final class HloudAction
 
     public function pageLanding(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        if ( !$this->session->get('hloudbin_userID') != null ) {
+            return $this->twig->render(
+                $response,
+                'hloud/landing.twig',
+                [
+                    'title' => 'hloudBin',
+                    'slug' => 'b$ckup before migrate.'
+                ],
+            );
+        }
+        
+        $objUser = $this->userReader->getUserById($this->session->get('hloudbin_userID'));
+
         return $this->twig->render(
             $response,
             'hloud/landing.twig',
@@ -33,6 +46,7 @@ final class HloudAction
                 'title' => 'hloudBin',
                 'slug' => 'b$ckup before migrate.',
                 'session' => $this->session->get('hloudbin_userID'),
+                'user' => (array)$objUser,
             ],
         );
     }

@@ -1,0 +1,45 @@
+{% block navbar %}
+    <nav class="navbar navbar-expand fixed-top border-bottom bg-light shadow">
+        <div class="container-fluid">
+            <div class="d-flex w-100 justify-content-between">
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link fw-bold">hloudBin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/upload" class="nav-link">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/about" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/blog" class="nav-link">Blog</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+
+                    {% if session == null %}
+                        <li class="nav-item">
+                            <a data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor: pointer;" class="nav-link">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="modal" data-bs-target="#authModal" style="cursor: pointer;" class="nav-link">Sign up</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="/user" class="nav-link">{{ name }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/api/auth/logout" class="nav-link">Sign out</a>
+                        </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+{% endblock %}

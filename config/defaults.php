@@ -3,6 +3,7 @@
 // Application default settings
 
 // Error reporting
+use App\Console\BakeCommand;
 use App\Console\ExampleCommand;
 use App\Console\SetupCommand;
 
@@ -68,6 +69,7 @@ $settings['db'] = [
 $settings['commands'] = [
     ExampleCommand::class,
     SetupCommand::class,
+    BakeCommand::class,
 ];
 
 $settings['twig'] = [

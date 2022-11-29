@@ -4,6 +4,7 @@
 
 use App\Action\Account\AccountAction;
 use App\Action\API\Authentification\AuthentificationAction;
+use App\Action\API\User\UserAction;
 use App\Action\Hloud\HloudAction;
 use App\Action\Upload\UploadAction;
 use Odan\Session\Middleware\SessionMiddleware;
@@ -50,6 +51,13 @@ return function (App $app) {
                         $app->post('/signup', [AuthentificationAction::class, 'actionSignup']);
                         $app->get('/logout', [AuthentificationAction::class, 'actionLogout']);
                     }
+            );
+            $app->group(
+                '/user',
+                function (RouteCollectorProxy $app) {
+                    $app->get('/getByUsername/{username}', [UserAction::class, 'actionByUsername']);
+                    $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
+                }
             );
         }
     )->add(SessionMiddleware::class);

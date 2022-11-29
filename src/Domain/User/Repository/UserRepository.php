@@ -92,6 +92,21 @@ final class UserRepository
         return (bool)$query->execute()->fetch('assoc');
     }
 
+    public function usernameExists(string $userName): bool
+    {
+        $query = $this->queryFactory->newSelect('users');
+        $query->select('username')->where(['username'=> $userName]);
+
+        return (bool)$query->execute()->fetch('assoc');
+    }
+    public function emailExists(string $userEmail): bool
+    {
+        $query = $this->queryFactory->newSelect('users');
+        $query->select('email')->where(['email'=> $userEmail]);
+
+        return (bool)$query->execute()->fetch('assoc');
+    }
+
     public function toRow(array $user): array
     {
         return [
