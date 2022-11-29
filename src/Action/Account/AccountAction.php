@@ -2,6 +2,7 @@
 
 namespace App\Action\Account;
 
+use App\Domain\User\Service\UserReader;
 use App\Renderer\RedirectRenderer;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -11,15 +12,18 @@ use Slim\Views\Twig;
 final class AccountAction
 {
     private SessionInterface $session;
+    private UserReader $userReader;
     private RedirectRenderer $renderer;
     private Twig $twig;
 
     public function __construct(
         SessionInterface $session,
+        UserReader $userReader,
         RedirectRenderer $renderer,
         Twig $twig
     ) {
         $this->session = $session;
+        $this->userReader = $userReader;
         $this->renderer = $renderer;
         $this->twig = $twig;
     }
@@ -33,7 +37,10 @@ final class AccountAction
         return $this->twig->render(
             $response,
             'hloud/auth/login.twig',
-            ['title' => 'hloudBin Login'],
+            [
+                'title' => 'hloudBin Login',
+                'hideModalLink' => true,
+            ],
         );
     }
 
@@ -46,7 +53,10 @@ final class AccountAction
         return $this->twig->render(
             $response,
             'hloud/auth/signup.twig',
-            ['title' => 'hloudBin Signup'],
+            [
+                'title' => 'hloudBin Signup',
+                'hideModalLink' => true
+            ],
         );
     }
 
@@ -56,12 +66,15 @@ final class AccountAction
             return $this->renderer->redirect($response, '/login');
         }
 
+        $objUser = $this->userReader->getUserById($this->session->get('hloudbin_userID'));
+
         return $this->twig->render(
             $response,
             'hloud/account/account.twig',
             [
                 'title' => 'hloudBin Account',
-                'bolSessAct' => $this->bolSessionActive()
+                'session' => $this->session->get('hloudbin_userID'),
+                'user' => (array)$objUser
             ]
         );
     }

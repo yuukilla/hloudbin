@@ -1,2 +1,124 @@
 {% extends "skeleton.twig" %}
 
+{# USES #}
+{% use "components/navbar.twig" with navbar as Navbar %}
+{% use "components/modals.twig" with modals as Modals %}
+{% use "components/changePasswordModal.twig" with changePasswordModal as modalChangePassword %}
+{% use "components/footer.twig" with footer as Footer %}
+
+{% block stylesheets %}
+    {{ assets({files: ['assets/css/app.css'] }) }}
+{% endblock %}
+
+{% block content %}
+
+    {# NAVBAR #}
+    {% block navbar %}
+        {{ block("Navbar") }}
+    {% endblock %}
+
+
+
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+        {# <pre class="pt-5">
+            {{ dump(user) }}
+        </pre> #}
+        {# SIDE #}
+        <div class="container-fluid w-15 min-vh-100 d-flex align-items-center px-5">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link link" href="#"><i class="bi bi-person-fill"></i> My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link" href="#"><i class="bi bi-gear-fill"></i> My Settings</a>
+                </li>
+            </ul>
+        </div>
+
+        {# MAIN #}
+        <div class="container min-vh-100 pt-5">
+            <div class="container pt-5">
+                <h1>My profile</h1>
+                <form method="POST" action="/api/user/update-account" id="updateProfileForm">
+                    <div class="pt-5">
+                        <h4>Photo</h4>
+                        <div class="row">
+                            <div class="col-2">
+                                <img
+                                    src="/assets/img/defaultuser.webp"
+                                    alt="Default user"
+                                    width="200"
+                                    height="200" 
+                                    class="rounded-circle">
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-3 d-flex align-items-end">
+                                <input class="form-control" type="file" id="avatar">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label class="form-label" for="username">Username</label>
+                        </div>
+                        <div class="col-6">
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="username" 
+                                readonly
+                                disabled 
+                                value="{{ user.username }}">
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label class="form-label">First name & Last name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="firstname" value="{{ user.firstname }}">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="lastname" value="{{ user.lastname }}">
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label class="form-label" for="email">Email</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="text" id="email" value="{{ user.email }}">
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label class="form-label">Password</label>
+                        </div>
+                        <div class="col-6 d-flex justify-content-center">
+                            <a
+                                role="button"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#change-password-modal" 
+                                class="btn btn-outline-dark w-50">
+                                Change password
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-lg btn-outline-success w-100">Update profile</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% block changePasswordModal %}
+        {{ block("modalChangePassword") }}
+    {% endblock %}
+
+    {# FOOTER #}
+    {# {% block footer %}
+        {{ block("Footer") }}
+    {% endblock %} #}
+{% endblock %}

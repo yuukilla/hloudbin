@@ -1,0 +1,15 @@
+{% extends "skeleton.twig" %}
+{% use "components/signupBlock.twig" with signupBlock as BlockSignup %}
+
+{% block content %}
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        {% block signupBlock %}
+            {{ block("BlockSignup") }}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{# SCRIPTS #}
+{% block scripts %}
+    {{ assets({ files: [ 'assets/js/handleAuthForms.js' ] }) }}
+{% endblock scripts %}

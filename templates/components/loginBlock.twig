@@ -1,0 +1,58 @@
+{% block loginBlock %}
+    <form method="POST" action="/api/auth/login" id="loginForm">
+        <div class="form-floating mb-3">
+            <input
+                type="text" 
+                class="form-control rounded-3" 
+                id="log_username" 
+                name="username" 
+                placeholder="Username">
+            <label for="log_username">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input
+                type="password" 
+                class="form-control rounded-3" 
+                id="log_password" 
+                name="password" 
+                placeholder="Password">
+            <label for="log_password">Password</label>
+        </div>
+        <div class="w-100 text-center">
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-outline-primary" type="submit">
+                Sign up
+            </button>
+            <small class="text-muted">
+                    <input type="checkbox" value="1" id="log_remember" name="remember" class="form-check-input align-middle mt-0">
+                    <label class="form-check-label align-middle" for="log_remember">Remember me</label>
+            </small><br>
+            {% if hideModalLink != null %}
+                <small class="text-muted">
+                    Not a member yet?
+                    <a
+                        role="link"
+                        href="/signup" 
+                        class="link text-decoration-none">
+                        Sign up
+                    </a>
+                    .
+                </small>
+            {% else %}
+                <small class="text-muted">
+                    Not a member yet?
+                    <a
+                        role="button"
+                        data-bs-target="#signupModal" 
+                        data-bs-toggle="modal" 
+                        class="link text-decoration-none">
+                        Sign up
+                    </a>
+                    .
+                </small>
+            {% endif %}
+
+            
+            
+        </div>
+    </form>
+{% endblock %}

@@ -1,6 +1,8 @@
+{% use "components/loginBlock.twig" with loginBlock as BlockLogin %}
+{% use "components/signupBlock.twig" with signupBlock as BlockSignup %}
 {% block modals %}
     
-    <div class="modal fade" tabindex="-1" role="dialog" id="signupModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="change-password-modal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header border-bottom-0 ps-0 py-4">
@@ -9,97 +11,9 @@
                     </h4>
                 </div>
                 <div class="modal-body pt-2">
-                    <form method="POST" action="/api/auth/signup" id="signupForm"> {# USE AJAX!!! #}
-                        <div class="form-floating mb-3">
-                            <input
-                                type="text" 
-                                class="form-control rounded-3" 
-                                id="reg_username" 
-                                name="username" 
-                                placeholder="Username">
-                            <label for="reg_username">Username</label>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-floating">
-                                    <input
-                                        type="text" 
-                                        class="form-control rounded-3" 
-                                        id="reg_firstname" 
-                                        name="firstname" 
-                                        placeholder="First name">
-                                    <label for="reg_firstname">First name</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating">
-                                    <input 
-                                        type="text" 
-                                        class="form-control rounded-3" 
-                                        id="reg_lastname" 
-                                        name="lastname" 
-                                        placeholder="Last name">
-                                    <label for="reg_lastname">Last name</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input 
-                                type="email" 
-                                class="form-control rounded-3" 
-                                id="reg_email" 
-                                name="email" 
-                                placeholder="Email">
-                            <label for="reg_email">Email</label>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-floating">
-                                    <input 
-                                        type="password" 
-                                        class="form-control rounded-3" 
-                                        id="reg_password" 
-                                        name="password" 
-                                        placeholder="Password">
-                                    <label for="reg_password">Password</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating">
-                                    <input 
-                                        type="password" 
-                                        class="form-control rounded-3" 
-                                        id="reg_password-repeat" 
-                                        name="password-repeat" 
-                                        placeholder="Confirm Password">
-                                    <label for="reg_password-repeat">Confirm password</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100 text-center">
-                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-outline-primary" type="submit">
-                                Sign up
-                            </button>
-                            <small class="text-muted">
-                                By clicking <span class="fst-italic">Sign up</span>, you agree to the
-                                <a href="/terms-of-service" class="link text-decoration-none">
-                                    Terms of Service
-                                </a>
-                                .
-                            </small><br>
-                            <small class="text-muted">
-                                Already a member?
-                                <a
-                                    role="button"
-                                    data-bs-target="#loginModal" 
-                                    data-bs-toggle="modal" 
-                                    class="link text-decoration-none">
-                                    Sign up
-                                </a>
-                                .
-                            </small>
-                        </div>
-                    </form>
+                    {% block signupBlock %}
+                        {{ block("BlockSignup") }}
+                    {% endblock %}
                 </div>
             </div>
         </div>
@@ -114,46 +28,9 @@
                     </h4>
                 </div>
                 <div class="modal-body pt-2">
-                    <form method="POST" action="/api/auth/login" id="loginForm">
-                        <div class="form-floating mb-3">
-                            <input
-                                type="text" 
-                                class="form-control rounded-3" 
-                                id="log_username" 
-                                name="username" 
-                                placeholder="Username">
-                            <label for="log_username">Username</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                type="password" 
-                                class="form-control rounded-3" 
-                                id="log_password" 
-                                name="password" 
-                                placeholder="Password">
-                            <label for="log_password">Password</label>
-                        </div>
-                        <div class="w-100 text-center">
-                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-outline-primary" type="submit">
-                                Sign up
-                            </button>
-                            <small class="text-muted">
-                                    <input type="checkbox" value="1" id="log_remember" name="remember" class="form-check-input align-middle mt-0">
-                                    <label class="form-check-label align-middle" for="log_remember">Remember me</label>
-                            </small><br>
-                            <small class="text-muted">
-                                Not a member yet?
-                                <a
-                                    role="button"
-                                    data-bs-target="#signupModal" 
-                                    data-bs-toggle="modal" 
-                                    class="link text-decoration-none">
-                                    Sign in
-                                </a>
-                                .
-                                </small>
-                        </div>
-                    </form>
+                    {% block loginBlock %}
+                        {{ block('BlockLogin') }}
+                    {% endblock %}
                 </div>
             </div>
         </div>
