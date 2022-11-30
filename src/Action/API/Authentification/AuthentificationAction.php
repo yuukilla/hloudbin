@@ -31,6 +31,7 @@ final class AuthentificationAction
     public function actionSignup(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $data = (array)$request->getParsedBody();
+        
 
         // Still unhandled exceptions lmao
 

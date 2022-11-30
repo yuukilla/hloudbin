@@ -6,7 +6,7 @@ use App\Action\Account\AccountAction;
 use App\Action\API\Authentification\AuthentificationAction;
 use App\Action\API\User\UserAction;
 use App\Action\Hloud\HloudAction;
-use App\Action\Upload\UploadAction;
+use App\Action\Storage\StorageAction;
 use Odan\Session\Middleware\SessionMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -23,12 +23,13 @@ return function (App $app) {
             $app->get('/contact', [HloudAction::class, 'pageContact'])->setName('contact');
             $app->get('/terms-of-service', [HloudAction::class, 'pageTofS'])->setName('terms-of-service');
 
-            // Service routes
-            $app->map(
-                ['GET', 'POST'],
-                '/upload',
-                UploadAction::class
-            )->setName('upload');
+            // // Service routes
+            // $app->map(
+            //     ['GET', 'POST'],
+            //     '/upload',
+            //     UploadAction::class
+            // )->setName('upload');
+            $app->get('/box', [StorageAction::class, 'pageBox'])->setName('box');
 
             // User routes
             $app->get('/account', [AccountAction::class, 'pageAccount'])->setName('account');
@@ -57,6 +58,8 @@ return function (App $app) {
                 function (RouteCollectorProxy $app) {
                     $app->get('/getByUsername/{username}', [UserAction::class, 'actionByUsername']);
                     $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
+                    
+                    $app->post('/update-account', [UserAction::class, 'actionUpdateAccount']);
                 }
             );
         }

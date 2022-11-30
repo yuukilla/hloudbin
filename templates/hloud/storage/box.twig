@@ -1,0 +1,20 @@
+{% extends "skeleton.twig" %}
+
+{# USES #}
+{% use "components/navbar.twig" with navbar as Navbar %}
+
+
+{% block content %}
+
+    {# NAVBAR #}
+    {% block navbar %}
+        {{ block("Navbar") }}
+    {% endblock %}
+
+    <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="container bg-dark bg-opacity-25 rounded-3">
+            lorem
+        </div>
+    </div>
+
+{% endblock %}

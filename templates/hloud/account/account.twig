@@ -39,7 +39,7 @@
         <div class="container min-vh-100 pt-5">
             <div class="container pt-5">
                 <h1>My profile</h1>
-                <form method="POST" action="/api/user/update-account" id="updateProfileForm">
+                <form method="POST" action="/api/user/update-account" id="updateProfileForm" enctype="multipart/form-data">
                     <div class="pt-5">
                         <h4>Photo</h4>
                         <div class="row">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-3"></div>
                             <div class="col-3 d-flex align-items-end">
-                                <input class="form-control" type="file" id="avatar">
+                                <input class="form-control" type="file" id="avatar" name="avatar">
                             </div>
                         </div>
                     </div>
@@ -65,9 +65,10 @@
                             <input
                                 class="form-control"
                                 type="text"
-                                id="username" 
+                                id="username"
+                                name="username"
                                 readonly
-                                disabled 
+                                {# disabled  #}
                                 value="{{ user.username }}">
                         </div>
                     </div>
@@ -76,10 +77,20 @@
                             <label class="form-label">First name & Last name</label>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="firstname" value="{{ user.firstname }}">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="firstname"
+                                name="firstname"
+                                value="{{ user.firstname }}">
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" id="lastname" value="{{ user.lastname }}">
+                            <input 
+                                type="text"
+                                class="form-control"
+                                id="lastname"
+                                name="lastname"
+                                value="{{ user.lastname }}">
                         </div>
                     </div>
                     <div class="row pt-3">
@@ -87,7 +98,12 @@
                             <label class="form-label" for="email">Email</label>
                         </div>
                         <div class="col-6">
-                            <input class="form-control" type="text" id="email" value="{{ user.email }}">
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="email"
+                                name="email"
+                                value="{{ user.email }}">
                         </div>
                     </div>
                     <div class="row pt-3">
@@ -106,7 +122,10 @@
                     </div>
                     <div class="row pt-3">
                         <div class="col-2">
-                            <button type="submit" class="btn btn-lg btn-outline-success w-100">Update profile</button>
+                            <button
+                                type="submit"
+                                id="upd_submit"
+                                class="btn btn-lg btn-outline-success w-100">Update profile</button>
                         </div>
                     </div>
                 </form>
@@ -122,3 +141,7 @@
         {{ block("Footer") }}
     {% endblock %} #}
 {% endblock %}
+
+{% block scripts %}
+    {{ assets({ files: [ 'assets/js/handleUpdateForm.js' ] }) }}
+{% endblock scripts %}

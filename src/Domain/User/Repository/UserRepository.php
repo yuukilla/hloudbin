@@ -29,7 +29,7 @@ final class UserRepository
             ->execute();
     }
 
-    public function userDelete(int $userId): void
+    public function deleteUser(int $userId): void
     {
         $this->queryFactory->newDelete('users')
             ->where(['id' => $userId])
@@ -114,7 +114,7 @@ final class UserRepository
             'firstname' => $user['firstname'],
             'lastname' => $user['lastname'],
             'email' => $user['email'],
-            'password' => password_hash($user['password'], PASSWORD_DEFAULT),
+            'password' => $user['password'],
         ];
     }
 }

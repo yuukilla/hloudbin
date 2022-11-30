@@ -12,7 +12,7 @@ ini_set('display_errors', '0');
 ini_set('display_startup_errors', '0');
 
 // Timezone
-date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set('Europe/Riga');
 
 $settings = [];
 
@@ -92,6 +92,10 @@ $settings['assets'] = [
 $settings['session'] = [
     'name' => 'hloudBin',
     'cache_expire' => 1669067999,
+];
+
+$settings['files'] = [
+    'upload_directory' => __DIR__ . '/../uploads',
 ];
 
 return $settings;

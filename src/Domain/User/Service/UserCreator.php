@@ -27,6 +27,9 @@ final class UserCreator
     public function createUser(array $data): int
     {
         $this->validator->validateUser($data);
+        
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
         $userId = $this->repository->createUser($data);
 
         $this->logger->info(sprintf('User created successfully: %s', $userId));
