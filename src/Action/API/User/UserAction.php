@@ -2,6 +2,7 @@
 
 namespace App\Action\API\User;
 
+use App\Domain\Storage\Repository\StorageRepository;
 use App\Domain\User\Repository\UserRepository;
 use App\Renderer\JsonRenderer;
 use App\Renderer\RedirectRenderer;
@@ -9,27 +10,25 @@ use Fig\Http\Message\StatusCodeInterface;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-// use Psr\Http\Message\UploadedFileInterface;
-use Psr\Container\ContainerInterface;
 
 final class UserAction
 {
-    // private ContainerInterface $container;
     private SessionInterface $session;
     private UserRepository $userRepository;
+    private StorageRepository $storageRepository;
     private JsonRenderer $renderer;
     private RedirectRenderer $redRenderer;
 
     public function __construct(
-        // ContainerInterface $container,
         SessionInterface $session,
         UserRepository $userRepository,
+        StorageRepository $storageRepository,
         JsonRenderer $renderer,
         RedirectRenderer $redRenderer
     ) {
-        // $this->container = $container;
         $this->session = $session;
         $this->userRepository = $userRepository;
+        $this->storageRepository = $storageRepository;
         $this->renderer = $renderer;
         $this->redRenderer = $redRenderer;
     }
@@ -67,33 +66,30 @@ final class UserAction
         ServerRequestInterface $req,
         ResponseInterface $res
     ): ResponseInterface {
-        $arrData = $req->getParsedBody();
-        $currUser = $this->userRepository->getUserById($this->session->get('hloudbin_userID'));
 
-        // $dir = $this->container->get('settings')['files']['upload_directory'];
-        // $uplFiles = $req->getUploadedFiles();
+        
+        $formData = $req->getParsedBody();
+        $formFile = $req->getUploadedFiles()['avatar'];
 
-        // $uplFile = $uplFiles['avatar'];
+        $sessionUserID = $this->session->get('hloudbin_userID');
+        $currAccount = $this->userRepository->getUserById($sessionUserID);
 
-        // var_dump($uplFiles);
-        // if ( $uplFile->getError() === UPLOAD_ERR_OK ) {
-        //     $fileName = $this->moveUploadedFile($dir, $uplFile);
-        // }
+        if ( $formFile->getError() === UPLOAD_ERR_OK ) {
+            // $fileData = $this->($directory, $formFile);
+            // $fileID = $this->storageRepository->createStorageFile($formFile);
+        }
 
         try {
             $data = [
-                // 'avatar' => $fileName,
-                'username' => $arrData['username'],
-                'firstname' => $arrData['firstname'],
-                'lastname' => $arrData['lastname'],
-                'email' => $arrData['email'],
-                'password' => $currUser['password'],
+                'username' => $formData['username'],
+                'firstname' => $formData['firstname'],
+                'lastname' => $formData['lastname'],
+                'email' => $formData['email'],
+                // 'avatar_id' => $fileID,
+                'password' => $currAccount['password']
             ];
-            $this->userRepository->updateUser(
-                $this->session->get('hloudbin_userID'),
-                $data
-            );
-    
+            $this->userRepository->updateUser($currAccount['id'], $data);
+
             return $this->renderer->json(
                 $res,
                 [
@@ -106,22 +102,70 @@ final class UserAction
                 $res,
                 [
                     'status' => $th->getCode(),
-                    'message' => 'Something went wrong.',
-                    'error' => $th->getMessage()
+                    'message' => $th->getMessage()
                 ]
             );
-        }   
+        }
+
+
     }
+    // public function actionUpdateAccount(
+    //     ServerRequestInterface $req,
+    //     ResponseInterface $res
+    // ): ResponseInterface {
 
-    // public function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)
-    // {
-    //     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+    //     $arrData = $req->getParsedBody();
+    //     $currUser = $this->userRepository->getUserById($this->session->get('hloudbin_userID'));
 
-    //     $baseName = bin2hex(random_bytes(16));
-    //     $fileName = sprintf('%s.%0.8s', $baseName, $extension);
+       
 
-    //     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
+    //     $settings = $this->container->get('settings');
+    //     $directory = $settings['files']['upload_directory'];
 
-    //     return $fileName;
+        
+
+    //     try {
+    //         $data = [
+    //             // 'avatar' => $fileName,
+    //             'username' => $arrData['username'],
+    //             'firstname' => $arrData['firstname'],
+    //             'lastname' => $arrData['lastname'],
+    //             'email' => $arrData['email'],
+    //             'password' => $currUser['password'],
+    //         ];
+    //         $this->userRepository->updateUser(
+    //             $this->session->get('hloudbin_userID'),
+    //             $data
+    //         );
+    
+    //         return $this->renderer->json(
+    //             $res,
+    //             [
+    //                 'status' => StatusCodeInterface::STATUS_OK,
+    //                 'message' => 'Account data successfully updated'
+    //             ]
+    //         );
+    //     } catch (\Throwable $th) {
+    //         return $this->renderer->json(
+    //             $res,
+    //             [
+    //                 'status' => $th->getCode(),
+    //                 'message' => 'Something went wrong.',
+    //                 'error' => $th->getMessage()
+    //             ]
+    //         );
+    //     }   
     // }
+
+    
+
+     // $dir = $this->container->get('settings')['files']['upload_directory'];
+        // $uplFiles = $req->getUploadedFiles();
+
+        // $uplFile = $uplFiles['avatar'];
+
+        // var_dump($uplFiles);
+        // if ( $uplFile->getError() === UPLOAD_ERR_OK ) {
+        //     $fileName = $this->moveUploadedFile($dir, $uplFile);
+        // }
 }

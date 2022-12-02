@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domain\User\Service;
+
 use App\Domain\User\Repository\UserRepository;
 use App\Factory\LoggerFactory;
 use Psr\Log\LoggerInterface;
@@ -14,16 +15,21 @@ final class UserDeleter
         UserRepository $userRepository,
         LoggerFactory $loggerFactory
     ) {
-        $this->repository = $userRepository;
+        $this->repository;
         $this->logger = $loggerFactory
             ->addFileHandler('user_deleter.log')
             ->createLogger();
     }
 
-    public function userDelete(int $userId): void
+    public function delete(int $userId): void
     {
         $this->repository->delete($userId);
 
-        $this->logger->info(sprintf('User deleted successfully: %s', $userId));
+        $this->logger->info(
+            sprintf(
+                'User deleted successfully: %s',
+                $userId
+            )
+        );
     }
 }

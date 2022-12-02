@@ -64,4 +64,7 @@ return function (App $app) {
             );
         }
     )->add(SessionMiddleware::class);
+
+    $app->get('/upl-test', [StorageAction::class, 'pageBox']);
+    $app->post('/api/upl-test', [\App\Action\API\Storage\StorageAction::class, 'upload']);
 };

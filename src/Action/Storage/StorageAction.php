@@ -31,17 +31,17 @@ final class StorageAction
 
     public function pageBox(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        if (!$this->bolSessionActive()) {
-            return $this->renderer->redirect($response, '/login');
-        }
+        // if (!$this->bolSessionActive()) {
+        //     return $this->renderer->redirect($response, '/login');
+        // }
 
         return $this->twig->render(
             $response,
             'hloud/storage/box.twig',
             [
                 'title' => 'hloudbin BOX',
-                'session' => $this->session->get('hloudbin_userID'),
-                'user' => (array)$this->userRepository->getUserById($this->session->get('hloudbin_userID')),
+                // 'session' => $this->session->get('hloudbin_userID'),
+                // 'user' => (array)$this->userRepository->getUserById($this->session->get('hloudbin_userID')),
             ]
         );
     }

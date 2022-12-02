@@ -4,50 +4,42 @@ namespace App\Domain\Storage\Repository;
 
 use App\Factory\QueryFactory;
 use DomainException;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
-final class StorageRepository
+class StorageRepository
 {
     private QueryFactory $queryFactory;
+    private ContainerInterface $container;
+    private UploadedFileInterface $uploadedFile;
 
-    public function __construct(QueryFactory $queryFactory)
-    {
+
+    public function __construct(
+        QueryFactory $queryFactory,
+        ContainerInterface $containerInterface,
+    ) {
         $this->queryFactory = $queryFactory;
+        $this->container = $containerInterface;
     }
 
-    public function createStorageFile(array $storable): int
+    public function create($storable): int
     {
-        return (int)$this->queryFactory->newInsert('storage.files', $this->toRow($storable))
+        $settings = $this->container->get('settings');
+        $directory = $settings['files']['upload_directory'];
+
+        $uplData = $this->moveUploadedFile($directory, $storable);
+        $data = [
+            'user_id' => 1,
+            'type' => $uplData['fileExt'],
+            'filename' => $uplData['fileName'],
+            'basename' => $uplData['baseName'],
+            'visible' => 1
+        ];
+
+        return (int)$this->queryFactory
+            ->newInsert('`storage.files`', $this->toRow($data))
             ->execute()
             ->lastInsertId();
-    }
-
-    public function deleteStorageFile(int $storableId): void
-    {
-        $this->queryFactory->newDelete('storage.files')
-            ->where(['id' => $storableId])
-            ->execute();
-    }
-
-    public function getFileById(int $storableId): array
-    {
-        $query = $this->queryFactory->newSelect('storage.files');
-        $query->select([
-            'id',
-            'user_id',
-            'type',
-            'name',
-            'visible',
-            'upload_date'
-        ]);
-        $query->where(['id' => $storableId]);
-
-        $row = $query->execute()->fetch('assoc');
-
-        if (!$row) {
-            throw new DomainException(sprintf('File not found: %s', $storableId));
-        }
-
-        return $row;
     }
 
     public function toRow(array $storable): array
@@ -55,8 +47,27 @@ final class StorageRepository
         return [
             'user_id' => $storable['user_id'],
             'type' => $storable['type'],
-            'name' => $storable['name'],
-            'visible' => $storable['visible'],
+            'filename' => $storable['filename'],
+            'basename' => $storable['basename'],
+            'visible' => $storable['visible']
+        ];
+    }
+
+    public function moveUploadedFile(string $dir, UploadedFileInterface $uploadedFile)
+    {
+        $fileExt = pathinfo(
+            $uploadedFile->getClientFilename(),
+            PATHINFO_EXTENSION
+        );
+        $baseName = bin2hex(random_bytes(16));
+        $fileName = sprintf('%s.%0.8s', $baseName, $fileExt);
+
+        $uploadedFile->moveTo($dir.DIRECTORY_SEPARATOR.$fileName);
+
+        return [
+            'fileExt' => $fileExt,
+            'fileName' => pathinfo($uploadedFile->getClientFilename(), PATHINFO_BASENAME),
+            'baseName' => $fileName
         ];
     }
 }

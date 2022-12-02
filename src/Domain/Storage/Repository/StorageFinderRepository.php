@@ -17,16 +17,7 @@ final class StorageFinderRepository
     {
         $query = $this->queryFactory->newSelect('storage.files');
 
-        $query->select(
-            [
-                'id',
-                'user_id',
-                'type',
-                'name',
-                'visible',
-                'upload_date'
-            ]
-        );
+        $query->select('*');
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

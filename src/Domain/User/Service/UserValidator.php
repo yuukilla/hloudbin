@@ -13,12 +13,13 @@ final class UserValidator
 {
     private UserRepository $repository;
 
-    public function __construct(UserRepository $repository)
-    {
-        $this->repository = $repository;
+    public function __construct(
+        UserRepository $userRepository
+    ) {
+        $this->repository = $userRepository;
     }
 
-    public function validateUser(array $data): void
+    public function validate(array $data): void
     {
         $validator = Validation::createValidator();
         $violations = $validator->validate($data, $this->createConstraints());
@@ -28,16 +29,15 @@ final class UserValidator
         }
     }
 
-    public function validateUserUpdate(int $userId, array $data): void
+    public function validateUpdate(int $userId, array $data): void
     {
-        if (!$this->repository->userExists($userId)) {
+        if (!$this->repository->existsID($userId)) {
             throw new DomainException(sprintf('User not found: %s', $userId));
         }
-
-        $this->validateUser($data);
+        $this->validate($data);
     }
 
-    private function createConstraints(): Constraint
+    public function createConstraints(): Constraint
     {
         $constraint = new ConstraintFactory();
 

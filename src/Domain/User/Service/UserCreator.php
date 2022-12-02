@@ -24,15 +24,20 @@ final class UserCreator
             ->createLogger();
     }
 
-    public function createUser(array $data): int
+    public function create(array $data): int
     {
-        $this->validator->validateUser($data);
-        
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $this->validator->validate($data);
 
-        $userId = $this->repository->createUser($data);
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        $this->logger->info(sprintf('User created successfully: %s', $userId));
+        $userId = $this->repository->create($data);
+
+        $this->logger->info(
+            sprintf(
+                'User created successfully: %s',
+                $userId
+            )
+        );
 
         return $userId;
     }

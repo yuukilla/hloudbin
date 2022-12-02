@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Domain\User\Repository;
+
 use App\Factory\QueryFactory;
 
 final class UserFinderRepository
 {
     private QueryFactory $queryFactory;
 
-    public function __construct(QueryFactory $queryFactory)
-    {
+    public function __construct(
+        QueryFactory $queryFactory
+    ) {
         $this->queryFactory = $queryFactory;
     }
 
@@ -16,18 +18,7 @@ final class UserFinderRepository
     {
         $query = $this->queryFactory->newSelect('users');
 
-        $query->select(
-            [
-                'id',
-                'username',
-                'firstname',
-                'lastname',
-                'email',
-                'password',
-                'date_joined',
-                'date_updated'
-            ]
-        );
+        $query->select('*');
 
         return $query->execute()->fetchAll('assoc') ?: [];
     }

@@ -10,15 +10,15 @@ CREATE TABLE `users` (
     `date_updated` timestamp COLLATE utf8mb4_unicode_ci DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (`id`),
     UNIQUE KEY `username` ( `username` ),
-    UNIQUE KEY `email` ( `email` ),
-    FOREIGN KEY (`avatar_id`) REFERENCES `storage.files`(`id`)
+    UNIQUE KEY `email` ( `email` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `storage.files`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_id` int(11) NOT NULL,
     `type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL, 
-    `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `filename` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `basename` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `visible` int(1) NOT NULL DEFAULT 1,
     `upload_date` timestamp DEFAULT NOW(),
     

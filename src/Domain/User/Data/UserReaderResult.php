@@ -12,6 +12,8 @@ final class UserReaderResult
 
     public ?string $lastname = null;
 
+    public ?int $avatar_id = null;
+
     public ?string $email = null;
 
     public ?string $password = null;

@@ -10,7 +10,9 @@ final class StorageFinderItem
 
     public ?string $type = null;
     
-    public ?string $name = null;
+    public ?string $filename = null;
+
+    public ?string $basename = null;
 
     public ?int $visible = null;
 
