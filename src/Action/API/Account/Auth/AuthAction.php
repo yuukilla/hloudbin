@@ -2,8 +2,10 @@
 
 namespace App\Action\API\Account\Auth;
 
+use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Service\UserCreator;
 use App\Domain\User\Service\UserReader;
+use App\Renderer\JsonRenderer;
 use App\Renderer\RedirectRenderer;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,8 +15,10 @@ final class AuthAction
 {
     private UserCreator $userCreator;
     private UserReader $userReader;
+    private UserRepository $userRepository;
     private SessionInterface $sessionInterface;
     private RedirectRenderer $redirectRenderer;
+    private JsonRenderer $jsonRenderer;
     
     /**
      * Summary of __construct
@@ -26,13 +30,17 @@ final class AuthAction
     public function __construct(
         UserCreator $userCreator,
         UserReader $userReader,
+        UserRepository $userRepository,
         SessionInterface $sessionInterface,
-        RedirectRenderer $redirectRenderer
+        RedirectRenderer $redirectRenderer,
+        JsonRenderer $jsonRenderer
     ) {
         $this->userCreator = $userCreator;
         $this->userReader = $userReader;
+        $this->userRepository = $userRepository;
         $this->sessionInterface = $sessionInterface;
         $this->redirectRenderer = $redirectRenderer;
+        $this->jsonRenderer = $jsonRenderer;
     }
     
     /**
@@ -103,6 +111,20 @@ final class AuthAction
 
             return $this->redirectRenderer->redirect($response, '/login');
         }
+    }
+    public function actionByUsername(
+        ServerRequestInterface $req,
+        ResponseInterface $res,
+        array $args
+    ): ResponseInterface {
+        $username = $args['username'];
+
+        $bolUsernameExists = (bool) $this->userRepository->existsName($username);
+
+        return $this->jsonRenderer->json(
+            $res,
+            $bolUsernameExists,
+        );
     }
 
     /**

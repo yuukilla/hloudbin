@@ -8,8 +8,8 @@ use App\Console\ExampleCommand;
 use App\Console\SetupCommand;
 
 error_reporting(0);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
 
 // Timezone
 date_default_timezone_set('Europe/Riga');
@@ -19,7 +19,7 @@ $settings = [];
 // Error handler
 $settings['error'] = [
     // Should be set to false for the production environment
-    'display_error_details' => true,
+    'display_error_details' => false,
     // Should be set to false for the test environment
     'log_errors' => true,
     // Display error details in error log
@@ -47,7 +47,7 @@ $settings['db'] = [
     // Disable meta data cache
     'cacheMetadata' => false,
     // Disable query logging
-    'log' => true,
+    'log' => false,
     // PDO options
     'flags' => [
         // Turn off persistent connections

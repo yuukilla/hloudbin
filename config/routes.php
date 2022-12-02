@@ -42,15 +42,15 @@ return function (App $app) {
                         $app->get('/logout', [AuthAction::class, 'signoutCall']);
                     }
             );
-            // $app->group(
-            //     '/user',
-            //     function (RouteCollectorProxy $app) {
-            //         $app->get('/getByUsername/{username}', [UserAction::class, 'actionByUsername']);
+            $app->group(
+                '/user',
+                function (RouteCollectorProxy $app) {
+                    $app->get('/getByUsername/{username}', [AuthAction::class, 'actionByUsername']);
             //         $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
                     
             //         $app->post('/update-account', [UserAction::class, 'actionUpdateAccount']);
-            //     }
-            // );
+                }
+            );
         }
     )->add(SessionMiddleware::class);
 

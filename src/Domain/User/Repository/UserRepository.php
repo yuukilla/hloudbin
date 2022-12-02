@@ -62,7 +62,7 @@ final class UserRepository
     {
         $query = $this->queryFactory->newSelect('users');
         $query->select('*');
-        $query->where(['id' => $userName]);
+        $query->where(['username' => $userName]);
 
         $row = $query->execute()->fetch('assoc');
 

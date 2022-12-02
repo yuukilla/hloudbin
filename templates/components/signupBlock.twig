@@ -1,5 +1,10 @@
 {% block signupBlock %}
     <form method="POST" action="/api/auth/signup" id="signupForm"> {# USE AJAX!!! #}
+        {% for message in flash.get('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endfor  %}
         <div class="form-floating mb-3">
             <input
                 type="text" 
