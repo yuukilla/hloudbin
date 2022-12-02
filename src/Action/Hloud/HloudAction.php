@@ -10,80 +10,67 @@ use Slim\Views\Twig;
 
 final class HloudAction
 {
-    private SessionInterface $session;
+    private SessionInterface $sessionInterface;
     private UserReader $userReader;
-    private Twig $twig;
+    private Twig $twigRenderer;
 
+    /**
+     * Summary of __construct
+     * @param SessionInterface $sessionInterface
+     * @param UserReader $userReader
+     * @param Twig $twigRenderer
+     */
     public function __construct(
         SessionInterface $sessionInterface,
         UserReader $userReader,
-        Twig $twig
+        Twig $twigRenderer
     ) {
-        $this->session = $sessionInterface;
+        $this->sessionInterface = $sessionInterface;
         $this->userReader = $userReader;
-        $this->twig = $twig;
+        $this->twigRenderer = $twigRenderer;
     }
 
-    public function pageLanding(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        if ( !$this->session->get('hloudbin_userID') != null ) {
-            return $this->twig->render(
+    /**
+     * Summary of pageLanding
+     * 
+     * Check fi session is active and
+     * render template from 'hloud/' path
+     * with necessary data
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function pageLanding(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+
+        if ( !$this->sessionInterface->get('hloudbin_userID') != null ) {
+            return $this->twigRenderer->render(
                 $response,
                 'hloud/landing.twig',
                 [
                     'title' => 'hloudBin',
-                    'slug' => 'b$ckup before migrate.'
-                ],
+                    'slug' => 'b$ckup before migrate.',
+                ]
             );
         }
-        
-        $objUser = $this->userReader->getUserById($this->session->get('hloudbin_userID'));
 
-        return $this->twig->render(
+        $user = $this->userReader->getbyID(
+            $this->sessionInterface->get('hloudbin_userID')
+        );
+
+        return $this->twigRenderer->render(
             $response,
             'hloud/landing.twig',
             [
                 'title' => 'hloudBin',
                 'slug' => 'b$ckup before migrate.',
-                'session' => $this->session->get('hloudbin_userID'),
-                'user' => (array)$objUser,
-            ],
+                'session' => $this->sessionInterface->get('hloudbin_userID'),
+                'user' => (array) $user
+            ]
         );
-    }
 
-    public function pageAbout(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        return $this->twig->render(
-            $response,
-            'hloud/about.twig',
-            ['title' => 'hloudBin About'],
-        );
-    }
-
-    public function pageBlog(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        return $this->twig->render(
-            $response,
-            'hloud/blog.twig',
-            ['title' => 'hloudBin Blog'],
-        );
-    }
-
-    public function pageContact(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        return $this->twig->render(
-            $response,
-            'hloud/contact.twig',
-            ['title' => 'hloudBin Contact'],
-        );
-    }
-
-    public function pageTofS(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        return $this->twig->render(
-            $response,
-            'hloud/terms-of-service.twig',
-            ['title' => 'hloudBin Terms of Service'],
-        );
     }
 }

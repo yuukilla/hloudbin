@@ -2,7 +2,7 @@
 
 // Define app routes
 
-use App\Action\Account\AccountAction;
+use App\Action\API\Account\Auth\AuthAction;
 use App\Action\API\Authentification\AuthentificationAction;
 use App\Action\API\User\UserAction;
 use App\Action\Hloud\HloudAction;
@@ -10,6 +10,7 @@ use App\Action\Storage\StorageAction;
 use Odan\Session\Middleware\SessionMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
+use App\Action\Hloud\Account\AccountAction as FEAccount;
 
 return function (App $app) {
     // End-user accessable endpoints
@@ -18,26 +19,14 @@ return function (App $app) {
         function (RouteCollectorProxy $app) {
             // General routes
             $app->get('/', [HloudAction::class, 'pageLanding'])->setName('landing');
-            $app->get('/about', [HloudAction::class, 'pageAbout'])->setName('about');
-            $app->get('/blog', [HloudAction::class, 'pageBlog'])->setName('blog');
-            $app->get('/contact', [HloudAction::class, 'pageContact'])->setName('contact');
-            $app->get('/terms-of-service', [HloudAction::class, 'pageTofS'])->setName('terms-of-service');
-
-            // // Service routes
-            // $app->map(
-            //     ['GET', 'POST'],
-            //     '/upload',
-            //     UploadAction::class
-            // )->setName('upload');
-            $app->get('/box', [StorageAction::class, 'pageBox'])->setName('box');
 
             // User routes
-            $app->get('/account', [AccountAction::class, 'pageAccount'])->setName('account');
+            $app->get('/account', [FEAccount::class, 'pageAccount'])->setName('account');
 
             // Authentification routes
-            $app->get('/login', [AccountAction::class, 'pageLogin'])->setName('login');
-            $app->get('/signup', [AccountAction::class, 'pageSignup'])->setName('signup');
-            $app->get('/logout', [AuthentificationAction::class, 'actionLogout'])->setName('logout');
+            $app->get('/login', [FEAccount::class, 'pageSignin'])->setName('login');
+            $app->get('/signup', [FEAccount::class, 'pageSignup'])->setName('signup');
+            $app->get('/logout', [AuthAction::class, 'signoutCall'])->setName('logout');
         }
     )->add(SessionMiddleware::class);
 
@@ -48,23 +37,23 @@ return function (App $app) {
             $app->group(
                 '/auth',
                 function (RouteCollectorProxy $app) {
-                        $app->post('/login', [AuthentificationAction::class, 'actionLogin']);
-                        $app->post('/signup', [AuthentificationAction::class, 'actionSignup']);
-                        $app->get('/logout', [AuthentificationAction::class, 'actionLogout']);
+                        $app->post('/login', [AuthAction::class, 'signinCall']);
+                        $app->post('/signup', [AuthAction::class, 'signupCall']);
+                        $app->get('/logout', [AuthAction::class, 'signoutCall']);
                     }
             );
-            $app->group(
-                '/user',
-                function (RouteCollectorProxy $app) {
-                    $app->get('/getByUsername/{username}', [UserAction::class, 'actionByUsername']);
-                    $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
+            // $app->group(
+            //     '/user',
+            //     function (RouteCollectorProxy $app) {
+            //         $app->get('/getByUsername/{username}', [UserAction::class, 'actionByUsername']);
+            //         $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
                     
-                    $app->post('/update-account', [UserAction::class, 'actionUpdateAccount']);
-                }
-            );
+            //         $app->post('/update-account', [UserAction::class, 'actionUpdateAccount']);
+            //     }
+            // );
         }
     )->add(SessionMiddleware::class);
 
-    $app->get('/upl-test', [StorageAction::class, 'pageBox']);
-    $app->post('/api/upl-test', [\App\Action\API\Storage\StorageAction::class, 'upload']);
+    // $app->get('/upl-test', [StorageAction::class, 'pageBox']);
+    // $app->post('/api/upl-test', [\App\Action\API\Storage\StorageAction::class, 'upload']);
 };

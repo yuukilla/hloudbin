@@ -9,31 +9,44 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class StorageAction
 {
-    private StorageRepository $repository;
-    private JsonRenderer $renderer;
+    private StorageRepository $storageRepository;
+    private JsonRenderer $jsonRenderer;
 
     public function __construct(
         StorageRepository $storageRepository,
         JsonRenderer $jsonRenderer
     ) {
-        $this->repository = $storageRepository;
-        $this->renderer = $jsonRenderer;
+        $this->storageRepository = $storageRepository;
+        $this->jsonRenderer = $jsonRenderer;
     }
 
-    public function upload(ServerRequestInterface $req, ResponseInterface $res): ResponseInterface
-    {
-        $formFiles = $req->getUploadedFiles();
+    /**
+     * Summary of upload
+     * 
+     * Upload file to database and asign it to user
+     * ONLY ON TEST PURPOSES
+     * WORK IN PROGRESS
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function upload(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $formFiles = $request->getUploadedFiles();
         $formFile = $formFiles['file1'];
 
-        if ( $formFile->getError() === UPLOAD_ERR_OK ) {
-            $fileID = $this->repository->create($formFile);
+        if ($formFile->getError() === UPLOAD_ERR_OK) {
+            $fileID = $this->storageRepository->create($formFile);
         }
 
-        return $this->renderer->json(
-            $res,
+        return $this->jsonRenderer->json(
+            $response,
             [
-                'info' => sprintf('File inserted successfully: %s', $fileID),
-                'formFile' => $formFile->getClientFilename()
+                'info' => sprintf('File uploaded successfully: %s', $fileID),
+                'filename' => $formFile->getClientFilename()
             ]
         );
     }
