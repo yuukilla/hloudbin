@@ -33,7 +33,7 @@ function doneTypingUsername() {
     if ($("#signupForm #reg_username")[0].value.length != 0) {
         $.ajax({
             type: "GET",
-            url: "/api/user/getByUsername/"+$("#signupForm #reg_username")[0].value,
+            url: "/api/user/exists/username?search="+$("#signupForm #reg_username")[0].value,
             dataType: "json",
             success: function (response) {
                 if (response == true) {
@@ -64,11 +64,8 @@ $("#signupForm #reg_email").on('keydown', function() {
 function doneTypingEmail() {
     if ($("#signupForm #reg_email")[0].value.length != 0) {
         $.ajax({
-            type: "POST",
-            url: "/api/user/getByEmail",
-            data: {
-                'email': $("#signupForm #reg_email")[0].value
-            },
+            type: "GET",
+            url: "/api/user/exists/email?search="+$("#signupForm #reg_email")[0].value,
             dataType: "json",
             success: function (response) {
                 if (response == true) {
@@ -88,10 +85,48 @@ function doneTypingEmail() {
 
 $("#signupForm #reg_submit").on('click', function (e) {
     e.preventDefault();
+
+    if ( $("#signupForm #reg_username")[0].value.length <= 0 ) {
+        $("#signupForm #reg_username").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if ( $("#signupForm #reg_firstname")[0].value.length <= 0 ) {
+        $("#signupForm #reg_firstname").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if ( $("#signupForm #reg_lastname")[0].value.length <= 0 ) {
+        $("#signupForm #reg_lastname").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if ( $("#signupForm #reg_email")[0].value.length <= 0 ) {
+        $("#signupForm #reg_email").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if ( $("#signupForm #reg_password")[0].value.length <= 0 ) {
+        $("#signupForm #reg_password").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if ( $("#signupForm #reg_password-repeat")[0].value.length <= 0 ) {
+        $("#signupForm #reg_password-repeat").addClass('border-danger');
+        bolSignupHasErrors = true;
+    }
+    if (
+        $("#signupForm #reg_password")[0].value != $("#signupForm #reg_password-repeat")[0].value ||
+        $("#signupForm #reg_password-repeat")[0].value != $("#signupForm #reg_password")[0].value
+    ) {
+        $("#signupForm #reg_password").addClass('border-danger')
+        $("#signupForm #reg_password-repeat").addClass('border-danger')
+        bolSignupHasErrors = true;
+    }
+
     if (!bolSignupHasErrors) {
         $('#signupForm').submit()
     } else {
-        console.log('errors!')
+        $("#signupForm #signupErrors").append(
+            `<div class="alert alert-danger">
+                Check highlighted inputs
+            </div>`
+        )
     }
 })
 

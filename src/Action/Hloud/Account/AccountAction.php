@@ -94,6 +94,29 @@ final class AccountAction
         );
     }
 
+    public function pageAccount(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        if (!$this->bolSessionActive()) { 
+            return $this->redirectRenderer->redirect($response, '/login');
+        }
+
+        $user = $this->userReader->getbyID(
+            $this->sessionInterface->get('hloudbin_userID')
+        );
+
+        return $this->twigRenderer->render(
+            $response,
+            'hloud/account/account.twig',
+            [
+                'title' => 'hloudBin Account',
+                'session' => $this->sessionInterface->get('hloudbin_userID'),
+                'user' => (array) $user
+            ]
+        );
+    }
+
     /**
      * Summary of bolSessionActive
      * 

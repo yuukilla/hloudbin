@@ -112,18 +112,50 @@ final class AuthAction
             return $this->redirectRenderer->redirect($response, '/login');
         }
     }
-    public function actionByUsername(
-        ServerRequestInterface $req,
-        ResponseInterface $res,
-        array $args
-    ): ResponseInterface {
-        $username = $args['username'];
 
+    /**
+     * Summary of existsUsername
+     * 
+     * Check if username is already claimed
+     * and return boolean value
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function existsUsername(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $username = $request->getQueryParams()['search'];
         $bolUsernameExists = (bool) $this->userRepository->existsName($username);
 
         return $this->jsonRenderer->json(
-            $res,
-            $bolUsernameExists,
+            $response,
+            $bolUsernameExists
+        );
+    }
+
+    /**
+     * Summary of existsEmail
+     * 
+     * Check if email is already claimed
+     * and return boolean
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function existsEmail(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $email = $request->getQueryParams()['search'];
+        $bolEmailExists = (bool) $this->userRepository->existsEmail($email);
+
+        return $this->jsonRenderer->json(
+            $response,
+            $bolEmailExists
         );
     }
 

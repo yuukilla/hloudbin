@@ -3,10 +3,8 @@
 // Define app routes
 
 use App\Action\API\Account\Auth\AuthAction;
-use App\Action\API\Authentification\AuthentificationAction;
-use App\Action\API\User\UserAction;
+use App\Action\Hloud\Account\AccountAction;
 use App\Action\Hloud\HloudAction;
-use App\Action\Storage\StorageAction;
 use Odan\Session\Middleware\SessionMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -23,7 +21,7 @@ return function (App $app) {
             // User routes
             $app->get('/account', [FEAccount::class, 'pageAccount'])->setName('account');
 
-            // Authentification routes
+            // front-end Authentification routes
             $app->get('/login', [FEAccount::class, 'pageSignin'])->setName('login');
             $app->get('/signup', [FEAccount::class, 'pageSignup'])->setName('signup');
             $app->get('/logout', [AuthAction::class, 'signoutCall'])->setName('logout');
@@ -34,6 +32,7 @@ return function (App $app) {
     $app->group(
         '/api',
         function (RouteCollectorProxy $app) {
+            // Back-end Authentification routes
             $app->group(
                 '/auth',
                 function (RouteCollectorProxy $app) {
@@ -45,8 +44,10 @@ return function (App $app) {
             $app->group(
                 '/user',
                 function (RouteCollectorProxy $app) {
-                    $app->get('/getByUsername/{username}', [AuthAction::class, 'actionByUsername']);
-            //         $app->post('/getByEmail', [UserAction::class, 'actionByEmail']);
+                    $app->get('/exists/username', [AuthAction::class, 'existsUsername']);
+                    $app->get('/exists/email', [AuthAction::class, 'existsEmail']);
+
+                    $app->post('/update', [AccountAction::class, 'updateAccount']); // not tested yet
                     
             //         $app->post('/update-account', [UserAction::class, 'actionUpdateAccount']);
                 }
