@@ -15,7 +15,7 @@
         "monolog/monolog": "^3",
         "nyholm/psr7": "^1.4",
         "nyholm/psr7-server": "^1.0",
-        "odan/session": "^5.1",
+        "odan/session": "^6.0",
         "odan/twig-assets": "^3.2",
         "php-di/php-di": "^6 || ^7",
         "selective/basepath": "^2",
